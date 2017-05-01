@@ -83,7 +83,7 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	if function == "init" {
 		return t.Init(stub, "init", args)
 	} else if function == "createcompany" {
-		return t.createCompany(stub, args)
+		return t.createcompany(stub, args)
 	} else if function == "createcontractor" {
 		return t.createContractor(stub, args)
 	} else if function == "createmanager" {
@@ -109,7 +109,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 }
 
 // write - invoke function to write key/value pair
-func (t *SimpleChaincode) createCompany(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *SimpleChaincode) createcompany(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var key, value string
 	var err error
 	fmt.Println("running write()")
