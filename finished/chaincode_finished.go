@@ -37,6 +37,22 @@ type CompanyInfo struct {
 	CompanyID string `json:"companyid"`
 }
 
+type ContractorInfo struct {
+	Contractorname string `json:"Contractorname"`	
+	Contractorassignedto string `json:"contractorassignedto"`		// assigned to which project
+	ContractorHourlyrate  string `json:"contractorHourlyrate"`
+	AssignedRole  string `json:"assignedRole"`
+	ContractorID string `json:"contractorid"`
+}
+
+
+type ManagerInfo struct {
+	Managername string `json:"Contractorname"`	
+	Managerassignedto string `json:"managerassignedto"`		// assigned to which project
+	AssignedRole  string `json:"assignedRole"`
+	ManagerID string `json:"managerid"`
+}
+
 
 func main() {
 	err := shim.Start(new(SimpleChaincode))
@@ -66,9 +82,14 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	// Handle different functions
 	if function == "init" {
 		return t.Init(stub, "init", args)
-	} else if function == "write" {
-		return t.write(stub, args)
+	} else if function == "createcompany" {
+		return t.createCompany(stub, args)
+	} else if function == "createcontractor" {
+		return t.createContractor(stub, args)
+	} else if function == "createmanager" {
+		return t.createManager(stub, args)
 	}
+
 	fmt.Println("invoke did not find func: " + function)
 
 	return nil, errors.New("Received unknown function invocation: " + function)
@@ -88,7 +109,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 }
 
 // write - invoke function to write key/value pair
-func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *SimpleChaincode) createCompany(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var key, value string
 	var err error
 	fmt.Println("running write()")
@@ -99,30 +120,42 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 
 	key = args[0] //rename for funsies
 	value = args[1]
+	err = stub.PutState(key, []byte(value))
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
 
-	//var companyId = strings.ToLower(args[0])
-	//var companyInfo = args[1]
+func (t *SimpleChaincode) createContractor(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	var key, value string
+	var err error
+	fmt.Println("running write()")
 
-	//var personalInfo CompanyInfo
- 	//personalInfo = CompanyInfo{"Varun", "Ojha", 1000, "varun@gmail.com", "9999999999"}
- 	//bytes, err := json.Marshal (&personalInfo)
+	if len(args) != 2 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+	}
 
-	//if err != nil {
-      //  fmt.Println("Could not marshal personal info object", err)
-        //return nil, err
- 	//}
- 
- //err = stub.PutState("key", bytes)
-//	companyname := strings.ToLower(args[1])
-//	companycontact := strings.ToLower(args[2])
-//	companybudget := strings.ToLower(args[3])
+	key = args[0] //rename for funsies
+	value = args[1]
+	err = stub.PutState(key, []byte(value))
+	if err != nil {
+		return nil, err
+	}
+	return nil, nil
+}
 
+func (t *SimpleChaincode) createManager(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+	var key, value string
+	var err error
+	fmt.Println("running write()")
 
-//	str := `{"companyname": "` + companyname + `", "companycontact": "` + companycontact + `", "companybudget": ` + companybudget + `, "companyId": "` + companyId + `"}`
+	if len(args) != 2 {
+		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
+	}
 
-	//err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
-	
-	//err = stub.PutState("companyId", bytes)
+	key = args[0] //rename for funsies
+	value = args[1]
 	err = stub.PutState(key, []byte(value))
 	if err != nil {
 		return nil, err
