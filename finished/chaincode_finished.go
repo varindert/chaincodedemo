@@ -19,7 +19,6 @@ package main
 import (
 	"errors"
 	"fmt"
-	"strings"
 	"encoding/json"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
@@ -102,16 +101,18 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 	//value = args[1]
 
 	var companyId = args[0]
-	companyname := strings.ToLower(args[1])
-	companycontact := strings.ToLower(args[2])
-	companybudget := strings.ToLower(args[3])
+	var companyInfo = args[1]
+
+	//companyname := strings.ToLower(args[1])
+	//companycontact := strings.ToLower(args[2])
+	//companybudget := strings.ToLower(args[3])
 
 
-	str := `{"companyname": "` + companyname + `", "companycontact": "` + companycontact + `", "companybudget": ` + companybudget + `, "companyId": "` + companyId + `"}`
+	//str := `{"companyname": "` + companyname + `", "companycontact": "` + companycontact + `", "companybudget": ` + companybudget + `, "companyId": "` + companyId + `"}`
 
 	//err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
 	
-	err = stub.PutState(companyId, []byte(str))
+	err = stub.PutState(companyId, []byte(companyInfo))
 	if err != nil {
 		return nil, err
 	}
