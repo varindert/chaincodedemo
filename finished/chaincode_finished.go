@@ -89,7 +89,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 
 // write - invoke function to write key/value pair
 func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	//var key, value string
+	var key, value string
 	var err error
 	fmt.Println("running write()")
 
@@ -97,10 +97,10 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
 	}
 
-	//key = args[0] //rename for funsies
-	//value = args[1]
+	key = args[0] //rename for funsies
+	value = args[1]
 
-	var companyId = strings.ToLower(args[0])
+	//var companyId = strings.ToLower(args[0])
 	//var companyInfo = args[1]
 
 	//var personalInfo CompanyInfo
@@ -113,17 +113,17 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
  	//}
  
  //err = stub.PutState("key", bytes)
-	companyname := strings.ToLower(args[1])
-	companycontact := strings.ToLower(args[2])
-	companybudget := strings.ToLower(args[3])
+//	companyname := strings.ToLower(args[1])
+//	companycontact := strings.ToLower(args[2])
+//	companybudget := strings.ToLower(args[3])
 
 
-	str := `{"companyname": "` + companyname + `", "companycontact": "` + companycontact + `", "companybudget": ` + companybudget + `, "companyId": "` + companyId + `"}`
+//	str := `{"companyname": "` + companyname + `", "companycontact": "` + companycontact + `", "companybudget": ` + companybudget + `, "companyId": "` + companyId + `"}`
 
 	//err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
 	
 	//err = stub.PutState("companyId", bytes)
-	err = stub.PutState(companyId, []byte(str))
+	err = stub.PutState(key, []byte(value))
 	if err != nil {
 		return nil, err
 	}
