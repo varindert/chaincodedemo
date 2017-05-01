@@ -19,6 +19,7 @@ package main
 import (
 	"errors"
 	"fmt"
+	"strings"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -78,7 +79,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 
 // write - invoke function to write key/value pair
 func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
-	var key, value string
+	//var key, value string
 	var err error
 	fmt.Println("running write()")
 
@@ -86,9 +87,20 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 		return nil, errors.New("Incorrect number of arguments. Expecting 2. name of the key and value to set")
 	}
 
-	key = args[0] //rename for funsies
-	value = args[1]
-	err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
+	//key = args[0] //rename for funsies
+	//value = args[1]
+
+	var companyId = args[0]
+	companyname := strings.ToLower(args[1])
+	companycontact := strings.ToLower(args[2])
+	companybudget := strings.ToLower(args[3])
+
+
+	str := `{"companyname": "` + companyname + `", "companycontact": "` + companycontact + `", "companybudget": ` + companybudget + `, "companyId": "` + companyId + `"}`
+
+	//err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
+	
+	err = stub.PutState(companyId, []byte(str))
 	if err != nil {
 		return nil, err
 	}
