@@ -100,8 +100,12 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 	//key = args[0] //rename for funsies
 	//value = args[1]
 
-	var companyId = args[0]
-	var companyInfo = args[1]
+	//var companyId = args[0]
+	//var companyInfo = args[1]
+
+	var personalInfo CompanyInfo
+ 	personalInfo = CompanyInfo{"Varun", "Ojha", 1000, "varun@gmail.com", "9999999999"}
+ 	bytes, err := json.Marshal (&personalInfo)
 
 	//companyname := strings.ToLower(args[1])
 	//companycontact := strings.ToLower(args[2])
@@ -112,7 +116,7 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 
 	//err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
 	
-	err = stub.PutState(companyId, []byte(companyInfo))
+	err = stub.PutState("companyId", bytes)
 	if err != nil {
 		return nil, err
 	}
