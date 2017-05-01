@@ -100,23 +100,30 @@ func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string)
 	//key = args[0] //rename for funsies
 	//value = args[1]
 
-	//var companyId = args[0]
+	var companyId = strings.ToLower(args[0])
 	//var companyInfo = args[1]
 
-	var personalInfo CompanyInfo
- 	personalInfo = CompanyInfo{"Varun", "Ojha", 1000, "varun@gmail.com", "9999999999"}
- 	bytes, err := json.Marshal (&personalInfo)
+	//var personalInfo CompanyInfo
+ 	//personalInfo = CompanyInfo{"Varun", "Ojha", 1000, "varun@gmail.com", "9999999999"}
+ 	//bytes, err := json.Marshal (&personalInfo)
 
-	//companyname := strings.ToLower(args[1])
-	//companycontact := strings.ToLower(args[2])
-	//companybudget := strings.ToLower(args[3])
+	//if err != nil {
+      //  fmt.Println("Could not marshal personal info object", err)
+        //return nil, err
+ 	//}
+ 
+ //err = stub.PutState("key", bytes)
+	companyname := strings.ToLower(args[1])
+	companycontact := strings.ToLower(args[2])
+	companybudget := strings.ToLower(args[3])
 
 
-	//str := `{"companyname": "` + companyname + `", "companycontact": "` + companycontact + `", "companybudget": ` + companybudget + `, "companyId": "` + companyId + `"}`
+	str := `{"companyname": "` + companyname + `", "companycontact": "` + companycontact + `", "companybudget": ` + companybudget + `, "companyId": "` + companyId + `"}`
 
 	//err = stub.PutState(key, []byte(value)) //write the variable into the chaincode state
 	
-	err = stub.PutState("companyId", bytes)
+	//err = stub.PutState("companyId", bytes)
+	err = stub.PutState(companyId, []byte(str))
 	if err != nil {
 		return nil, err
 	}
