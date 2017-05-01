@@ -20,6 +20,7 @@ import (
 	"errors"
 	"fmt"
 	"strings"
+	"encoding/json"
 
 	"github.com/hyperledger/fabric/core/chaincode/shim"
 )
@@ -27,6 +28,16 @@ import (
 // SimpleChaincode example simple Chaincode implementation
 type SimpleChaincode struct {
 }
+
+//custom data models
+type CompanyInfo struct {
+	Companyname string `json:"companyname"`
+	Companycontact  string `json:"companycontact"`
+	Companybudget  int `json:"companybudget"`
+	AssignedRole  string `json:"assignedRole"`
+	CompanyID string `json:"companyid"`
+}
+
 
 func main() {
 	err := shim.Start(new(SimpleChaincode))
@@ -118,6 +129,9 @@ func (t *SimpleChaincode) read(stub shim.ChaincodeStubInterface, args []string) 
 
 	key = args[0]
 	valAsbytes, err := stub.GetState(key)
+	res := CompanyInfo{}
+	json.Unmarshal(valAsbytes, &res)
+
 	if err != nil {
 		jsonResp = "{\"Error\":\"Failed to get state for " + key + "\"}"
 		return nil, errors.New(jsonResp)
