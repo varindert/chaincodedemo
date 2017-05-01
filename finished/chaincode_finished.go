@@ -82,15 +82,15 @@ func (t *SimpleChaincode) Invoke(stub shim.ChaincodeStubInterface, function stri
 	// Handle different functions
 	if function == "init" {
 		return t.Init(stub, "init", args)
-	} else if function == "createcompany" {
-		return t.createcompany(stub, args)
+	} else if function == "write" {
+		return t.write(stub, args)
 	} else if function == "createcontractor" {
 		return t.createContractor(stub, args)
 	} else if function == "createmanager" {
 		return t.createManager(stub, args)
-	}
-
-	fmt.Println("invoke did not find func: " + function)
+	} 
+		fmt.Println("invoke did not find func: " + function)
+	
 
 	return nil, errors.New("Received unknown function invocation: " + function)
 }
@@ -109,7 +109,7 @@ func (t *SimpleChaincode) Query(stub shim.ChaincodeStubInterface, function strin
 }
 
 // write - invoke function to write key/value pair
-func (t *SimpleChaincode) createcompany(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
+func (t *SimpleChaincode) write(stub shim.ChaincodeStubInterface, args []string) ([]byte, error) {
 	var key, value string
 	var err error
 	fmt.Println("running write()")
